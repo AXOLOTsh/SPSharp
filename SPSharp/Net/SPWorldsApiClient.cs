@@ -13,6 +13,7 @@ namespace SPSharp.Net
     public class SPWorldsApiClient : BaseApiClient
     {
         public CardAuthorization CardAuthorization { get; }
+        public SPWorldsApiClient(string token, string id, string baseUrl = "https://spworlds.ru/api/public") : this(new CardAuthorization(token, id), baseUrl) { }
         public SPWorldsApiClient(CardAuthorization cardAuthorization, string baseUrl = "https://spworlds.ru/api/public") : base(baseUrl)
         {
             CardAuthorization = cardAuthorization;
@@ -50,7 +51,7 @@ namespace SPSharp.Net
         /// <param name="amount">Transfer amount.</param>
         /// <param name="comment">Commentary on the translation.</param>
         /// <returns></returns>
-        public async Task SendPaymentAsync(string receiver, int amount, string comment)
+        public async Task SendPaymentAsync(int receiver, int amount, string comment)
         {
             var transaction = JsonSerializer.Serialize(new { receiver, amount, comment });
             await PostRequestAsync("/transactions", transaction);
